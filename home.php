@@ -2,17 +2,8 @@
 	<head>
 		<meta name="viewport" content="width=device-width, user-scalable=no">
 		<title>iKleks Coach</title>
-		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
 		<script src='/web/js/libs/angular.min.js'></script>
-		<script src='/web/js/libs/angular-resource.js'></script>
-		<script src='/web/js/libs/angular-route.js'></script>
-		<script src='/web/js/libs/angular-sanitize.js'></script>
-		<script src='/web/js/libs/angular-animate.js'></script>
-		<script src='/web/js/libs/better_resource.js'></script>
-		<script src='/web/js/mvc/main_module.js'></script>
-		<script src='/web/js/mvc/services.js'></script>
-		<script src='/web/js/mvc/controllers.js'></script>
-		<script src='/web/js/mvc/directives.js'></script>
 		<link href='http://fonts.googleapis.com/css?family=Roboto:300,400,700,700italic,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
 		<link href='/web/css/main.css' rel='stylesheet'>
 	</head>
@@ -58,4 +49,15 @@
 
 		</div>
 	</body>
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	<script src='/web/js/libs/angular-resource.js'></script>
+	<script src='/web/js/libs/angular-route.js'></script>
+	<script src='/web/js/libs/angular-sanitize.js'></script>
+	<script src='/web/js/libs/angular-animate.js'></script>
+	<script src='/web/js/libs/better_resource.js'></script>
+	<script src='/web/js/libs/buzz.min.js'></script>
+	<script src='/web/js/mvc/main_module.js'></script>
+	<script src='/web/js/mvc/services.js'></script>
+	<script src='/web/js/mvc/controllers.js'></script>
+	<script src='/web/js/mvc/directives.js'></script>
 </html>

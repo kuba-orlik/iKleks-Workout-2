@@ -300,23 +300,152 @@ app.controller('exercise', ['$scope', '$http', '$routeParams', function($scope, 
 	})
 }])
 
-app.controller('exercise_go', ["$scope", "$http", "$routeParams", "music_player", function($scope, $http, $routeParams, music_player){
+app.controller('exercise_go', ["$scope", "$http", "$routeParams", "music_player", "$rootScope", 'metronome', 'user', 'notifSound', function($scope, $http, $routeParams, music_player, $rootScope, metronome, user, notif){
 	$scope.exercise_loaded = false;
 
 	$scope.exercise;
 
 	$scope.template;
 
-	$scope.current_set = 1;
+	$scope.metronome_active = false;
+
+	$scope.music_paused = false;
+
+	$scope.current_set_no = 0;
+
+	$scope.current_set_template = {};
+
+	$scope.last_result = {};
+
+	$scope.timer = user.timer
+
+	$scope.results = [];
+
+	$scope.mode = 'set'; //set|timer
+
+	$scope.startTimer = function(amount){
+		$scope.mode = 'timer';
+		$scope.timer = amount;
+		var d = new Date();
+		var start = d.getTime();
+		$scope.timerTick(start, amount);
+	}
+
+	$scope.timerTick = function(start, amount){
+		var d = new Date();
+		var cur = d.getTime();
+		var dif = Math.floor((cur-start)/1000);
+		$scope.timer = amount-dif;	
+		if(dif<amount && $scope.mode=='timer'){
+			setTimeout(function(){
+				$scope.timerTick(start, amount);
+				$scope.$apply();
+			}, 1000);
+		}
+		if(dif>=amount){
+			notif.play();
+			$scope.nextSet();
+		}
+	}
+
+	$scope.next = function(){
+		$scope.music_fadeOut(100);			
+		if($scope.current_set_no==$scope.exercise.setTemplates.length){
+			$scope.finish();
+		}else{
+			$scope.startTimer(user.timer);
+		}
+	}
+
+	$scope.metronome = {
+		play: function(){
+			metronome.play();
+		},
+		pause: function(){
+			metronome.pause();
+		}
+	}
+
+	$scope.$watch('metronome_active', function(newVal){
+		if(newVal){
+			$scope.metronome.play();
+			$scope.setMusicVolume(5);
+		}else{
+			$scope.metronome.pause();
+			$scope.setMusicVolume(100);
+		}
+	})
+
+	$scope.setMusicVolume = function(volume){
+		music_player.setVolume(volume);
+	}
+
+	$scope.$watch('music_paused', function(newVal){
+		if(newVal){
+			$scope.music_pause();
+		}else{
+			$scope.music_play();
+		}
+	})
+
+	function handleChange(){
+		if(document.location.hash.indexOf('/go')==-1){
+			$scope.music_fadeOut(500);	
+			console.log('fadingOut');		
+		}
+	};
+
+	window.onhashchange= handleChange;
+	window.onclick=handleChange;
+
+	$scope.music_fadeOut = function(dur){
+		music_player.fadeOut(dur);
+	}
+
+	$scope.nextSet = function(){
+		if($scope.current_set_no<$scope.exercise.setTemplates.length){
+			$scope.mode = 'set';
+			$scope.music_play();
+			$scope.current_set_template=$scope.template[$scope.current_set_no];
+			$scope.current_set_no+=1;
+		}else{
+			$scope.finish();
+		}
+	}	
+
+	$scope.finish = function(){
+		$scope.mode='finish';
+	}
+
+	$scope.music_pause = function(){
+		music_player.pause();
+	}
+
+	$scope.music_play = function(){
+		music_player.play();
+	}
+
+	$scope.music_reset = function(){
+		music_player.reset();
+	}
 
 	$http.get('/api/exercises/' + $routeParams.id).success(function(data){
 		$scope.exercise = data;
-		$scope.exercise_loaded = true;
 		$scope.template = data.setTemplates;
 		var c =0;
 		for(var i in $scope.template){
 			c++;
 		}
+		$scope.current_set_template = data.setTemplates[0];
 		$scope.template.length = c;
+		$http.get('/api/exercises/' + $routeParams.id + '/log?count=1').success(function(data){
+			$scope.last_result = data[0];
+			$scope.exercise_loaded = true;		
+			$scope.music_reset();
+			$scope.nextSet();
+			for(var i=0; i<5; i++){
+				$scope.results[i] = Math.ceil($scope.last_result.results[i].result*$scope.exercise.multiplier);
+			}
+		})
 	})
 }]);

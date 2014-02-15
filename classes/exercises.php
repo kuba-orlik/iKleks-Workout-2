@@ -58,6 +58,30 @@ class Exercise extends databaseObject {
 		$this -> load($id);
 	}
 
+	public function getMultiplier(){
+		$results = json_decode($this->results_json);
+		$count = count($results);
+		$multiplier = -1;
+		if($count<=1){
+			$multiplier = 1.01;
+		}else{
+			$i = 0;
+			while($count-$i>=1 && $multiplier<=1 && $i<=1){
+				if($results[$count-1-$i-1]==0){
+					$i++;
+					continue;
+				}
+				$multiplier = $results[$count-1-$i]/$results[$count-1-$i-1];
+				$i++;
+				//echo $multiplier
+			}
+		}
+		if($multiplier<1){
+			$multiplier = 1.01;
+		}
+		return $multiplier;
+	}
+
 	public function isAccessibleBy($user){
 		if($user->getAttr("id")==$this->user_id){
 			return true;
@@ -72,7 +96,7 @@ class Exercise extends databaseObject {
 		$ret['setTemplates'] = array();
 		foreach($setTemplates AS $setTemplate){
 			$order = $setTemplate->getAttr('orderL');
-			$ret['setTemplates'][$order] = $setTemplate->public_getAttributes();
+			$ret['setTemplates'][$order-1] = $setTemplate->public_getAttributes();
 		}
 		$ret['days_since_last_exercise'] = $this->daysSinceLastSession();
 		$ret['type_name'] = $this->getMusclePart()->getAttr('name');
@@ -80,6 +104,7 @@ class Exercise extends databaseObject {
 		$ret['results'] = $this->getResults('sum', false);
 		$ret['max_score'] = $this->getMaxScore();
 		$ret['total_progress'] = $this->getTotalProgress();
+		$ret['multiplier'] = $this->getMultiplier();
 		return $ret;
 	}
 

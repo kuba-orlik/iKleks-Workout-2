@@ -4,7 +4,7 @@
 
 */
 .main_background {
-  background-color: #5371b2; }
+  background-color: #567ca4; }
 
 /*
 
@@ -20,7 +20,7 @@ body {
   background-size: 10px, contain; }
 
 body.welcome {
-  background-color: #5371b2 !important;
+  background-color: #567ca4 !important;
   box-shadow: inset 0rem 0rem 36rem 4rem rgba(0, 0, 0, 0.16); }
 
 .noisy {
@@ -52,7 +52,7 @@ body.welcome {
   flex-grow: 0;
   min-width: 17rem;
   padding: 11px 0;
-  background-color: #394f7f;
+  background-color: #3c5672;
   border: none;
   border-radius: 4px;
   color: white;
@@ -85,10 +85,10 @@ a {
 
 a:not(.welcome_button):not(.button) {
   text-decoration: none;
-  color: #4965a2; }
+  color: #4d6f93; }
 
 a:not(.button):not(.welcome_button):hover {
-  color: #768ec1; }
+  color: #7695b7; }
 
 a:not(.button):not(.welcome_button):active {
   position: relative;
@@ -349,7 +349,8 @@ a:not(.button):not(.welcome_button):active {
   -ms-transform: rotate(-2deg) translatey(29px) !important;
   -moz-transform: rotate(-2deg) translatey(29px) !important;
   -o-transform: rotate(-2deg) translatey(29px) !important;
-  opacity: 0 !important; }
+  opacity: 0 !important;
+  margin-bottom: -100px; }
 
 .card.ng-enter-active, .card.ng-hide-remove-active, card.ng-enter-active, card.ng-hide-remove-active {
   transform: rotate(0) translatey(0px);
@@ -357,7 +358,27 @@ a:not(.button):not(.welcome_button):active {
   -ms-transform: rotate(0) translatey(0px);
   -moz-transform: rotate(0) translatey(0px);
   -o-transform: rotate(0) translatey(0px);
+  margin-bottom: -10px;
   opacity: 1; }
+
+.card.ng-enter, .card.ng-hide-add, card.ng-enter, card.ng-hide-add {
+  transform: rotate(0) translatey(0px);
+  -webkit-transform: rotate(0) translatey(0px);
+  -ms-transform: rotate(0) translatey(0px);
+  -moz-transform: rotate(0) translatey(0px);
+  -o-transform: rotate(0) translatey(0px);
+  opacity: 1;
+  margin-bottom: 0px;
+  display: flex !important; }
+
+.card.ng-enter-active, .card.ng-hide-add-active, card.ng-enter-active, card.ng-hide-add-active {
+  transform: rotate(-2deg) translatey(-29px) !important;
+  -webkit-transform: rotate(-2deg) translatey(-29px) !important;
+  -ms-transform: rotate(-2deg) translatey(-29px) !important;
+  -moz-transform: rotate(-2deg) translatey(-29px) !important;
+  -o-transform: rotate(-2deg) translatey(-29px) !important;
+  opacity: 0 !important;
+  margin-bottom: -100px; }
 
 .large_input {
   font-size: 2.2rem;
@@ -380,7 +401,7 @@ a:not(.button):not(.welcome_button):active {
   color: #e7b74f; }
 .card .status.ok, card .status.ok {
   color: white;
-  background-color: #5371b2; }
+  background-color: #567ca4; }
 .card .status.error, card .status.error {
   background-color: #e7b74f;
   color: white; }
@@ -399,7 +420,7 @@ a:not(.button):not(.welcome_button):active {
 
 */
 .button {
-  background-color: #4a67a5;
+  background-color: #4f7296;
   border: none;
   color: white;
   font-size: 1rem;
@@ -416,6 +437,16 @@ a:not(.button):not(.welcome_button):active {
   user-select: none;
   outline: none;
   transition: all 200ms; }
+
+.button.large {
+  font-size: 1.6rem;
+  padding: 14px 33px;
+  box-shadow: inset -2px -4px 0px 1px rgba(0, 0, 0, 0.3); }
+
+.button.large:active {
+  box-shadow: inset 2px 4px 0px 1px rgba(0, 0, 0, 0.3);
+  padding-top: 18px;
+  padding-bottom: 10px; }
 
 .button.larger {
   font-size: 1.21rem; }
@@ -448,17 +479,17 @@ a:not(.button):not(.welcome_button):active {
 
 */
 sparkline path {
-  stroke: rgba(83, 113, 178, 0.2);
+  stroke: rgba(86, 124, 164, 0.2);
   stroke-width: 4;
   fill: none; }
 
 sparkline[tiny="true"] path {
-  stroke: #5371b2;
+  stroke: #567ca4;
   stroke-width: 1;
   fill: none; }
 
 sparkline.full_stroke path {
-  stroke: #5371b2 !important; }
+  stroke: #567ca4 !important; }
 
 /*
 	
@@ -466,7 +497,7 @@ sparkline.full_stroke path {
 
 */
 pointschart .user .line {
-  stroke: #5371b2;
+  stroke: #567ca4;
   stroke-width: 4;
   fill: none; }
 
@@ -534,7 +565,7 @@ exercises
   opacity: 1; }
 
 .list_row.active {
-  background-color: #5371b2;
+  background-color: #567ca4;
   color: white; }
 
 .list_row .secondary {
@@ -573,7 +604,7 @@ exercises
   opacity: 1; }
 
 .exercise_list_row.active {
-  background-color: #5371b2;
+  background-color: #567ca4;
   color: white; }
 
 .exercise_list_row .secondary {
@@ -601,3 +632,377 @@ exercises
 
 .historyPreview_row:hover {
   background-color: #b6b6b6; }
+
+.fake_music_bars {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 0; }
+
+@keyframes music_bar_jump1 {
+  0% {
+    height: 0; }
+
+  50% {
+    height: 30%; }
+
+  100% {
+    height: 0; } }
+
+@-webkit-keyframes music_bar_jump1 {
+  0% {
+    height: 0; }
+
+  50% {
+    height: 30%; }
+
+  100% {
+    height: 0; } }
+
+musicbar.animated:nth-child(1) {
+  animation-duration: 400ms;
+  -webkit-animation-duration: 400ms;
+  -ms-animation-duration: 400ms;
+  -moz-animation-duration: 400ms;
+  -o-animation-duration: 400ms;
+  animation-name: music_bar_jump1;
+  -webkit-animation-name: music_bar_jump1;
+  -ms-animation-name: music_bar_jump1;
+  -moz-animation-name: music_bar_jump1;
+  -o-animation-name: music_bar_jump1;
+  left: 0%; }
+
+@keyframes music_bar_jump2 {
+  0% {
+    height: 0; }
+
+  50% {
+    height: 20%; }
+
+  100% {
+    height: 0; } }
+
+@-webkit-keyframes music_bar_jump2 {
+  0% {
+    height: 0; }
+
+  50% {
+    height: 20%; }
+
+  100% {
+    height: 0; } }
+
+musicbar.animated:nth-child(2) {
+  animation-duration: 500ms;
+  -webkit-animation-duration: 500ms;
+  -ms-animation-duration: 500ms;
+  -moz-animation-duration: 500ms;
+  -o-animation-duration: 500ms;
+  animation-name: music_bar_jump2;
+  -webkit-animation-name: music_bar_jump2;
+  -ms-animation-name: music_bar_jump2;
+  -moz-animation-name: music_bar_jump2;
+  -o-animation-name: music_bar_jump2;
+  left: 12.5%; }
+
+@keyframes music_bar_jump3 {
+  0% {
+    height: 0; }
+
+  50% {
+    height: 30%; }
+
+  100% {
+    height: 0; } }
+
+@-webkit-keyframes music_bar_jump3 {
+  0% {
+    height: 0; }
+
+  50% {
+    height: 30%; }
+
+  100% {
+    height: 0; } }
+
+musicbar.animated:nth-child(3) {
+  animation-duration: 600ms;
+  -webkit-animation-duration: 600ms;
+  -ms-animation-duration: 600ms;
+  -moz-animation-duration: 600ms;
+  -o-animation-duration: 600ms;
+  animation-name: music_bar_jump3;
+  -webkit-animation-name: music_bar_jump3;
+  -ms-animation-name: music_bar_jump3;
+  -moz-animation-name: music_bar_jump3;
+  -o-animation-name: music_bar_jump3;
+  left: 25%; }
+
+@keyframes music_bar_jump4 {
+  0% {
+    height: 0; }
+
+  50% {
+    height: 40%; }
+
+  100% {
+    height: 0; } }
+
+@-webkit-keyframes music_bar_jump4 {
+  0% {
+    height: 0; }
+
+  50% {
+    height: 40%; }
+
+  100% {
+    height: 0; } }
+
+musicbar.animated:nth-child(4) {
+  animation-duration: 700ms;
+  -webkit-animation-duration: 700ms;
+  -ms-animation-duration: 700ms;
+  -moz-animation-duration: 700ms;
+  -o-animation-duration: 700ms;
+  animation-name: music_bar_jump4;
+  -webkit-animation-name: music_bar_jump4;
+  -ms-animation-name: music_bar_jump4;
+  -moz-animation-name: music_bar_jump4;
+  -o-animation-name: music_bar_jump4;
+  left: 37.5%; }
+
+@keyframes music_bar_jump5 {
+  0% {
+    height: 0; }
+
+  50% {
+    height: 50%; }
+
+  100% {
+    height: 0; } }
+
+@-webkit-keyframes music_bar_jump5 {
+  0% {
+    height: 0; }
+
+  50% {
+    height: 50%; }
+
+  100% {
+    height: 0; } }
+
+musicbar.animated:nth-child(5) {
+  animation-duration: 800ms;
+  -webkit-animation-duration: 800ms;
+  -ms-animation-duration: 800ms;
+  -moz-animation-duration: 800ms;
+  -o-animation-duration: 800ms;
+  animation-name: music_bar_jump5;
+  -webkit-animation-name: music_bar_jump5;
+  -ms-animation-name: music_bar_jump5;
+  -moz-animation-name: music_bar_jump5;
+  -o-animation-name: music_bar_jump5;
+  left: 50%; }
+
+@keyframes music_bar_jump6 {
+  0% {
+    height: 0; }
+
+  50% {
+    height: 60%; }
+
+  100% {
+    height: 0; } }
+
+@-webkit-keyframes music_bar_jump6 {
+  0% {
+    height: 0; }
+
+  50% {
+    height: 60%; }
+
+  100% {
+    height: 0; } }
+
+musicbar.animated:nth-child(6) {
+  animation-duration: 900ms;
+  -webkit-animation-duration: 900ms;
+  -ms-animation-duration: 900ms;
+  -moz-animation-duration: 900ms;
+  -o-animation-duration: 900ms;
+  animation-name: music_bar_jump6;
+  -webkit-animation-name: music_bar_jump6;
+  -ms-animation-name: music_bar_jump6;
+  -moz-animation-name: music_bar_jump6;
+  -o-animation-name: music_bar_jump6;
+  left: 62.5%; }
+
+@keyframes music_bar_jump7 {
+  0% {
+    height: 0; }
+
+  50% {
+    height: 70%; }
+
+  100% {
+    height: 0; } }
+
+@-webkit-keyframes music_bar_jump7 {
+  0% {
+    height: 0; }
+
+  50% {
+    height: 70%; }
+
+  100% {
+    height: 0; } }
+
+musicbar.animated:nth-child(7) {
+  animation-duration: 1000ms;
+  -webkit-animation-duration: 1000ms;
+  -ms-animation-duration: 1000ms;
+  -moz-animation-duration: 1000ms;
+  -o-animation-duration: 1000ms;
+  animation-name: music_bar_jump7;
+  -webkit-animation-name: music_bar_jump7;
+  -ms-animation-name: music_bar_jump7;
+  -moz-animation-name: music_bar_jump7;
+  -o-animation-name: music_bar_jump7;
+  left: 75%; }
+
+@keyframes music_bar_jump8 {
+  0% {
+    height: 0; }
+
+  50% {
+    height: 80%; }
+
+  100% {
+    height: 0; } }
+
+@-webkit-keyframes music_bar_jump8 {
+  0% {
+    height: 0; }
+
+  50% {
+    height: 80%; }
+
+  100% {
+    height: 0; } }
+
+musicbar.animated:nth-child(8) {
+  animation-duration: 1100ms;
+  -webkit-animation-duration: 1100ms;
+  -ms-animation-duration: 1100ms;
+  -moz-animation-duration: 1100ms;
+  -o-animation-duration: 1100ms;
+  animation-name: music_bar_jump8;
+  -webkit-animation-name: music_bar_jump8;
+  -ms-animation-name: music_bar_jump8;
+  -moz-animation-name: music_bar_jump8;
+  -o-animation-name: music_bar_jump8;
+  left: 87.5%; }
+
+musicbar {
+  display: inline-block;
+  animation-iteration-count: infinite;
+  -webkit-animation-iteration-count: infinite;
+  -ms-animation-iteration-count: infinite;
+  -moz-animation-iteration-count: infinite;
+  -o-animation-iteration-count: infinite;
+  animation-timing-function: easeInElastic;
+  -webkit-animation-timing-function: easeInElastic;
+  -ms-animation-timing-function: easeInElastic;
+  -moz-animation-timing-function: easeInElastic;
+  -o-animation-timing-function: easeInElastic;
+  width: 12.5%;
+  background-color: rgba(86, 124, 164, 0.6);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  bottom: 0px;
+  position: absolute;
+  transition: all 200ms;
+  height: 0;
+  z-index: 0; }
+
+/*
+
+	metronome
+
+*/
+@keyframes metronome {
+  0% {
+    transform: rotateZ(-30deg);
+    -webkit-transform: rotateZ(-30deg);
+    -ms-transform: rotateZ(-30deg);
+    -moz-transform: rotateZ(-30deg);
+    -o-transform: rotateZ(-30deg); }
+
+  50% {
+    transform: rotateZ(30deg);
+    -webkit-transform: rotateZ(30deg);
+    -ms-transform: rotateZ(30deg);
+    -moz-transform: rotateZ(30deg);
+    -o-transform: rotateZ(30deg); }
+
+  100% {
+    transform: rotateZ(-30deg);
+    -webkit-transform: rotateZ(-30deg);
+    -ms-transform: rotateZ(-30deg);
+    -moz-transform: rotateZ(-30deg);
+    -o-transform: rotateZ(-30deg); } }
+
+@-webkit-keyframes metronome {
+  0% {
+    transform: rotateZ(-30deg);
+    -webkit-transform: rotateZ(-30deg);
+    -ms-transform: rotateZ(-30deg);
+    -moz-transform: rotateZ(-30deg);
+    -o-transform: rotateZ(-30deg); }
+
+  50% {
+    transform: rotateZ(30deg);
+    -webkit-transform: rotateZ(30deg);
+    -ms-transform: rotateZ(30deg);
+    -moz-transform: rotateZ(30deg);
+    -o-transform: rotateZ(30deg); }
+
+  100% {
+    transform: rotateZ(-30deg);
+    -webkit-transform: rotateZ(-30deg);
+    -ms-transform: rotateZ(-30deg);
+    -moz-transform: rotateZ(-30deg);
+    -o-transform: rotateZ(-30deg); } }
+
+#metronome_arrow {
+  transform-origin-y: 100px;
+  -webkit-transform-origin-y: 100px;
+  -ms-transform-origin-y: 100px;
+  -moz-transform-origin-y: 100px;
+  -o-transform-origin-y: 100px;
+  width: 10px;
+  height: 100px;
+  background-color: #567ca4;
+  position: absolute;
+  bottom: -10px;
+  left: 50%; }
+
+#metronome_arrow.animated {
+  animation-name: metronome;
+  -webkit-animation-name: metronome;
+  -ms-animation-name: metronome;
+  -moz-animation-name: metronome;
+  -o-animation-name: metronome;
+  animation-duration: 2000ms;
+  -webkit-animation-duration: 2000ms;
+  -ms-animation-duration: 2000ms;
+  -moz-animation-duration: 2000ms;
+  -o-animation-duration: 2000ms;
+  animation-iteration-count: infinite;
+  -webkit-animation-iteration-count: infinite;
+  -ms-animation-iteration-count: infinite;
+  -moz-animation-iteration-count: infinite;
+  -o-animation-iteration-count: infinite; }

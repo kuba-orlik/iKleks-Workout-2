@@ -202,7 +202,7 @@ app.directive('pointschart', function(){
 			  city.append("path")
 				  .attr("class", "line")
 				  .attr("d", function(d) { return line(d.values); })
-				  .style("stroke", function(d) { return color(d.name); });
+		//		  .style("stroke", function(d) { return color(d.name); });
 
 				var legend_width = 80;
 				var legend_element_height = 10;

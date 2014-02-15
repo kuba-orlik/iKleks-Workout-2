@@ -13,7 +13,8 @@
 */
 
 //$main_color:hsla(208, 60%, 47%, 1);
-$main_color:hsl(221, 38%, 51%);
+//$main_color:hsl(221, 38%, 51%);
+$main_color:hsl(211, 31%, 49%);
 //$main_color:pink;
 $complementary_color1:#E7B74F;
 $view_max_width:1200px;
@@ -430,12 +431,28 @@ to {
 .card.ng-enter, .card.ng-hide-remove, card.ng-enter, card.ng-hide-remove{
 	@include vendor-prefix(transform, rotate($card_rotation) translatey(29px)!important);
 	opacity:0!important;
+	margin-bottom:-100px;
 }	
 
 .card.ng-enter-active, .card.ng-hide-remove-active, card.ng-enter-active, card.ng-hide-remove-active{
 	@include vendor-prefix(transform, rotate(0) translatey(0px));
+	margin-bottom:-10px;
 	opacity:1;
 }
+
+.card.ng-enter, .card.ng-hide-add, card.ng-enter, card.ng-hide-add{
+	@include vendor-prefix(transform, rotate(0) translatey(0px));
+	opacity:1;
+	margin-bottom:0px;
+	display:flex!important;
+}	
+
+.card.ng-enter-active, .card.ng-hide-add-active, card.ng-enter-active, card.ng-hide-add-active{
+	@include vendor-prefix(transform, rotate($card_rotation) translatey(-29px)!important);
+	opacity:0!important;
+	margin-bottom:-100px;
+}
+
 
 .large_input{
 	font-size: 2.2rem;
@@ -512,6 +529,22 @@ $default_button_vertical_padding:6px;
 	transition:all 200ms;
 }
 
+$large_button_shade_depth:4px;
+$large_button_vertical_padding:14px;
+
+.button.large{
+	font-size:1.6rem;
+	padding: $large_button_vertical_padding 33px;
+	box-shadow: inset -#{$large_button_shade_depth/2} -#{$large_button_shade_depth} 0px 1px rgba(0, 0, 0, 0.3);
+}
+
+.button.large:active{
+	box-shadow: inset #{$large_button_shade_depth/2} #{$large_button_shade_depth} 0px 1px rgba(0, 0, 0, 0.3);
+	//box-shadow:none!important;
+	padding-top: $large_button_vertical_padding + $large_button_shade_depth;
+	padding-bottom: $large_button_vertical_padding - $large_button_shade_depth;
+}
+
 .button.larger{
 	font-size:1.21rem;
 }
@@ -561,7 +594,7 @@ sparkline path {
 }
 
 sparkline[tiny="true"] path{
-	stroke: rgba(83, 113, 178, 1);
+	stroke: $main_color;
 	stroke-width: 1;
 	fill: none;
 }
@@ -740,4 +773,113 @@ exercises
 
 .historyPreview_row:hover {
 	background-color: rgb(182, 182, 182);
+}
+
+.fake_music_bars{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 0;
+}
+
+$music_bar_amount:8;
+
+$shift: 2;
+
+@for $i from 1 through $music_bar_amount {
+
+	@keyframes music_bar_jump#{$i}
+	{
+	0%   {height:0}
+	50%  {height:#{20% + abs($i - $shift)/$music_bar_amount * 80%}}
+	100% {height:0;}
+	}
+
+	@-webkit-keyframes music_bar_jump#{$i} /* Safari and Chrome */
+	{
+	0%   {height:0}
+	50%  {height:#{20% + abs($i - $shift)/$music_bar_amount * 80%}}
+	100% {height:0;}
+	}
+
+  musicbar.animated:nth-child(#{$i}) { 
+  	@include vendor-prefix(animation-duration, 300 + ($i * 100ms ) );  
+	@include vendor-prefix(animation-name, music_bar_jump#{$i});
+  	left: ($i - 1) * (1 / $music_bar_amount) * 100%; 
+  }
+}
+
+musicbar {
+	display: inline-block;
+	@include vendor-prefix(animation-iteration-count, infinite);
+	@include vendor-prefix(animation-timing-function, easeInElastic);
+	width: (1 / $music_bar_amount) * 100%;
+	background-color: transparentize($main_color, 0.4);
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	bottom: 0px;
+	position: absolute;
+	transition:all 200ms;
+	height:0;
+	z-index:0;
+}
+
+/*
+
+	metronome
+
+*/
+
+$rotation: 30deg;
+
+@keyframes metronome /* Safari and Chrome */
+{
+	0%   {
+		@include vendor-prefix(transform, rotateZ(-$rotation));
+	}
+
+	50% {
+		@include vendor-prefix(transform, rotateZ($rotation));	
+	}
+
+	100%   {
+		@include vendor-prefix(transform, rotateZ(-$rotation));
+	}
+}
+
+@-webkit-keyframes metronome /* Safari and Chrome */
+{
+	0%   {
+		@include vendor-prefix(transform, rotateZ(-$rotation));
+	}
+
+	50% {
+		@include vendor-prefix(transform, rotateZ($rotation));	
+	}
+
+	100%   {
+		@include vendor-prefix(transform, rotateZ(-$rotation));
+	}
+}
+
+$arrow_height: 100px;
+
+
+#metronome_arrow{
+	@include vendor-prefix(transform-origin-y, $arrow_height);
+	width:10px;
+	height:$arrow_height;
+	background-color:$main_color;
+	position:absolute;
+	bottom:-10px;
+	left:50%;
+}
+
+#metronome_arrow.animated{
+	@include vendor-prefix(animation-name, metronome);
+	@include vendor-prefix(animation-duration, 2000ms);
+	@include vendor-prefix(animation-iteration-count, infinite);
 }

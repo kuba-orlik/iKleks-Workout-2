@@ -17,14 +17,18 @@ class ExercisesController{
 			if(isset($url_elements[3])){
 				switch($url_elements[3]){
 					case "log":
-						//var_dump($parameters);
-						$logs = $exercise->getLogEntries($parameters['count']);
+						if(!isset($parameters['count'])){
+							$count = 99999;
+						}else{
+							$count = $parameters['count'];
+						}
+						$logs = $exercise->getLogEntries($count);
 						foreach($logs AS $log){
 							$row=$log->public_getAttributes();
 							$results = $log->getResults();
 							$res_array = array();
 							foreach($results AS $result){
-								$res_array[$result->getSetTemplate()->getAttr('name')] = $result->getAttr('result');
+								$res_array[$result->getSetTemplate()->getAttr('orderL')] = $result->getAttr('result');
 							}
 							$row['result'] = $res_array;
 							$data[]=$row;
