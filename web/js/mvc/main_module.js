@@ -7,6 +7,7 @@ var app = angular.module('app', ['ngResource', 'ngAnimate', 'ngSanitize', 'bette
 			.when('/exercise/new', {templateUrl: 'web/html/views/create_exercise.html', controller: 'new_exercise'})
 			.when('/exercise/:id', {templateUrl: 'web/html/views/exercise.html', controller: 'exercise'})
 			.when('/exercise/:id/go', {templateUrl: 'web/html/views/exercise_go.html', controller: 'exercise_go'})
+			.when('/history', {templateUrl: 'web/html/views/history.html', controller: 'history'})
 			.otherwise({redirectTo: '/home'});
 	}]
 );	

@@ -26,8 +26,8 @@
 						<div goto='/exercises' class='navigation_option'>
 							exercises
 						</div>
-						<div class='navigation_option'>
-						option3
+						<div goto='/history' class='navigation_option' >
+							history
 						</div>
 						<div class='navigation_option'>
 						option4

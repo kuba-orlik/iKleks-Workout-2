@@ -6,7 +6,7 @@
 			<div>
 			</div>
 			<input type='text' style='width:3em; font-size:8rem; text-align:center; color:rgb(77,77,77)' ng-model='results[current_set_no-1]'>
-			<button class='button large' ng-click='next()'>
+			<button class='button large' ng-click='next()' style='margin-top:25px'>
 				next ->
 			</button>
 		</card>
@@ -37,6 +37,9 @@
 					</td>
 				</tr>
 			</table>
+			<button class='button large' ng-click='save()'>
+				save
+			</button>
 		</card>
 	</div>
 	<div class='column_medium'> 
@@ -64,7 +67,7 @@
 			<div id='metronome_arrow' ng-class='{animated: metronome_active}'></div>
 		</card>
 
-		<card ng-show='exercise_loaded && mode!="finished"'>
+		<card ng-show='exercise_loaded && mode!="finish"'>
 			<h1>set <span>{{current_set_no}}</span>/{{template.length}}</h1>
 		</card>
 		<card ng-show='exercise_loaded && mode=="timer"'>

@@ -303,6 +303,9 @@ app.controller('exercise', ['$scope', '$http', '$routeParams', function($scope, 
 app.controller('exercise_go', ["$scope", "$http", "$routeParams", "music_player", "$rootScope", 'metronome', 'user', 'notifSound', function($scope, $http, $routeParams, music_player, $rootScope, metronome, user, notif){
 	$scope.exercise_loaded = false;
 
+	var d = new Date();
+	$scope.start_time = d.getTime();
+
 	$scope.exercise;
 
 	$scope.template;
@@ -415,6 +418,8 @@ app.controller('exercise_go', ["$scope", "$http", "$routeParams", "music_player"
 
 	$scope.finish = function(){
 		$scope.mode='finish';
+		var d = new Date();
+		$scope.end_time = d.getTime();
 	}
 
 	$scope.music_pause = function(){
@@ -449,3 +454,15 @@ app.controller('exercise_go', ["$scope", "$http", "$routeParams", "music_player"
 		})
 	})
 }]);
+
+
+app.controller('history', ['$scope', '$http', function($scope, $http){
+	$scope.history = [];
+
+	$scope.history_loaded = false;
+
+	$http.get('/api/points?count=100').success(function(data){
+		$scope.history = data;
+		$scope.history_loaded = true;
+	})
+}])

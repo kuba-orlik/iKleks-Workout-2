@@ -9,6 +9,11 @@ class logController{
 	public function getAction($url_elements, $parameters){
 		$user = Users::getCurrentUser();	
 		$data = array();
+		if(!isset($parameters['count'])){
+			$count = 10;
+		}else{
+			$count = $parameters['count'];
+		}
 		if(isset($url_elements[2])){
 			$log_entry = LogEntries::getByID($url_elements[2]);
 			if(!$log_entry->isAccessibleBy($user)){
@@ -16,7 +21,7 @@ class logController{
 			}
 			$data = $log_entry->public_getAttributes();
 		}else{
-			$log_entries = $user->getLogEntries();
+			$log_entries = $user->getLogEntries($count);
 			foreach($log_entries AS $log_entry){
 				$data[] = $log_entry->public_getAttributes();
 			}

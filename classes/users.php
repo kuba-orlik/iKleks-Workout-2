@@ -216,8 +216,8 @@ class User extends databaseObject {
 		return Exercises::getByUserID($this->id);
 	}
 
-	public function getLogEntries(){
-		return LogEntries::getForUser($this);
+	public function getLogEntries($count){
+		return LogEntries::getForUser($this, $count);
 	}
 
 	public function getMuscleParts(){

@@ -1,0 +1,36 @@
+<grid>
+	<div class='column_large' >
+		<card ng-show='history_loaded'>
+			<h1>
+				History
+			</h1>	
+			<table style='width:100%'>
+				<tr>
+					<th>
+						date
+					</th>
+					<th>
+						points
+					</th>
+					<th>
+						combo
+					</th>
+				</tr>
+				<tr ng-repeat='log in history'>
+					<td style='text-align:left'>
+						{{log.date}}
+					</td>
+					<td style='text-align:Center'>
+						{{log.points}}
+					</td>
+					<td style='text-align:Center'>
+						{{log.combo}}
+					</td>
+				</tr>
+			</table>
+		</card>
+	</div>
+	<div class='column_medium'>
+
+	</div>
+</grid>
