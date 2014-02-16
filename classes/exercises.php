@@ -176,4 +176,9 @@ class Exercise extends databaseObject {
 		return new MusclePart($this->muscle_part_id);
 	}
 	
+	public function rebuildResultsJSON(){
+		$this->results_json = null;
+		$this->getResults();
+	}
+
 }

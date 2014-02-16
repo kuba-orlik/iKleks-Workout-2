@@ -434,6 +434,25 @@ app.controller('exercise_go', ["$scope", "$http", "$routeParams", "music_player"
 		music_player.reset();
 	}
 
+	$scope.saving = false;
+	$scope.saved = false;
+
+	$scope.save = function(){
+		console.log('saving');
+		var params = {
+			exercise_id:  $scope.exercise.id,
+			result: $scope.results,
+			type: 'regular',
+			begin_time: Math.round($scope.start_time/1000),
+			duration_s: Math.floor(($scope.end_time - $scope.start_time)/1000)
+		}
+		$scope.saving = true;
+		$http.post('/api/log/', params).success(function(data){
+			$scope.saving = false;
+			$scope.saved = true;
+		});
+	}	
+
 	$http.get('/api/exercises/' + $routeParams.id).success(function(data){
 		$scope.exercise = data;
 		$scope.template = data.setTemplates;
@@ -464,5 +483,82 @@ app.controller('history', ['$scope', '$http', function($scope, $http){
 	$http.get('/api/points?count=100').success(function(data){
 		$scope.history = data;
 		$scope.history_loaded = true;
+	})
+}])
+
+app.controller('exercise_log', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams){
+	$scope.loaded = false;
+	$scope.exercises = [];
+	$scope.results = [];
+
+	$scope.type='regular';
+
+	$scope.types = [
+		{id: 'regular', name:'preset routine'},
+		{id: 'custom', name: 'custom'}
+	];
+
+	$scope.saved = false;
+
+	$http.get('/api/exercises').success(function(data){
+		$scope.exercises = data;
+		var chosen_id = $routeParams.id;
+		for(var i in data){
+			if(data[i].id==chosen_id){
+				$scope.exercise = data[i];
+			}
+		}
+		$http.get('/api/muscleParts').success(function(data){
+			$scope.loaded = true;
+			$scope.muscle_parts = data;
+		})
+	});
+
+	$scope.save = function(){
+		var date = Math.round(Date.parse($scope.begin_time)/1000);
+		var exercise_id = $scope.exercise.id;
+		var results = $scope.results;
+		var duration = $scope.duration_s;
+		var params = {
+			type: $scope.type,
+			begin_time: date,
+			exercise_id: exercise_id,
+			result: results,
+			duration_s: duration,
+			muscle_part_id: $scope.muscle_part_id,
+			name: $scope.custom_name
+		}
+		if($scope.type=='regular'){
+			params.result = results;
+		}else{
+			params.result = $scope.custom_result;
+		}
+		$http.post('/api/log', params).success(function(data){
+			$scope.saved = true;
+			//alert('hash');
+			document.location.hash="/logs/" + JSON.parse(data);
+		})
+	}
+}]);
+
+app.controller('log', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams){
+	$scope.log = {};
+
+	
+
+	$scope.exercise = {};
+
+	$scope.loaded = false;
+
+	$http.get('/api/log/' + $routeParams.logId).success(function(data){
+		$scope.log = data;
+		if(data.type=='regular'){
+			$http.get('/api/exercises/' + data.exercise_id).success(function(data){
+				$scope.exercise = data;
+				$scope.loaded = true;
+			})			
+		}else{
+			$scope.loaded=true;
+		}
 	})
 }])

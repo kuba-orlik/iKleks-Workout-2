@@ -31,7 +31,35 @@ class logController{
 	}
 	
 	public function postAction($url_elements, $parameters){
-		$user = Users::getUser();
+		//$user = Users::getCurrentUser();
+		$required_parameters = array(
+			"begin_time",
+			"duration_s",
+			"type",
+			'result'
+		);
+		if(!isset($parameters['type'])){
+			die('type not set');
+		}
+		$type = $parameters['type'];
+		switch($type){
+			case 'custom':
+				$required_parameters[]="name";
+				$required_parameters[]="muscle_part_id";
+				break;
+			case 'regular':
+				$required_parameters[]="exercise_id";
+				break;
+			default:
+				die("unknown type $type");
+				break;
+		}
+		foreach($required_parameters AS $req){
+			if(!isset($parameters[$req])){
+				die("$req not set");
+			}
+		}
+		$data = LogEntries::put($parameters);
 		return $data;		
 	}
 }

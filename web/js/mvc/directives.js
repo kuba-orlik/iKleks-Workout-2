@@ -249,8 +249,8 @@ app.directive('recommendationcard', function(){
         	recom: "=",
         },
         template: 
-        	"<div class='card' style='position:relative'>" +
-			"<span style='align-self:flex-start; z-index:2'>Recommended exercise:</span>" +
+        	"<div class='card' style='position:relative; text-align:center'>" +
+			"<span style='align-self:flex-start; z-index:2'><span ng-show='recom.type!=\"most_neglected\"'>Recommended</span><span ng-show='recom.type==\"most_neglected\"'>Most neglected</span> exercise:</span>" +
 			"<span style='font-size:2.8rem; z-index:2'>" +
 				"<a href='#/exercise/{{recom.exercise.id}}'>{{recom.exercise.name}}</a>" +
 			"</span>" +

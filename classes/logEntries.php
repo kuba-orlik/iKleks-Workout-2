@@ -61,6 +61,40 @@ class LogEntries extends databaseObjectColection {
 		}
 		return $ret;
 	}
+
+	public static function put($attributes, $public=true){
+		//var_dump($attributes);
+		$user = Users::getCurrentUser();
+		$user_id = $user->getAttr('id');
+		//$user_id=26; //$$$$dirtty dirty hack
+		if($attributes['type']=='regular'){
+			$query = "INSERT INTO log_entry_regular (exercise_id) VALUES (?)";
+			$rel_id = Database::prepareAndExecute($query, array($attributes['exercise_id']), true);
+			$sets = SetTemplates::getForExercise($attributes['exercise_id']);
+			$results = $attributes['result'];
+			$i=0;
+			$sum = 0;
+			foreach($results AS $result){
+				$query = "INSERT INTO sets (log_entry_id, result, set_type_id) VALUES (?, ?, ?)";
+				Database::prepareAndExecute($query, array($rel_id, $result, $sets[$i]->getAttr('id')));
+				$sum+=$result;
+				$i++;
+			}
+			$exercise = new Exercise($attributes['exercise_id']);
+			$exercise->rebuildResultsJSON();
+		}
+		if($attributes['type']=='custom'){
+			$query = "INSERT INTO log_entry_custom (name, result, muscle_part_id) VALUES (?, ?, ?)";
+			$rel_id = Database::prepareAndExecute($query, array($attributes['name'], $attributes['result'], $attributes['muscle_part_id']), true);
+		}
+		$query = "INSERT INTO log_entry (begin_time, duration_s, rel_id, legacy, user_id, type) VALUES(FROM_UNIXTIME(?), ?, ?, ?, ?, ?)";
+		$log_entry_id=Database::prepareAndExecute($query, array($attributes['begin_time'], $attributes['duration_s'], $rel_id, 0, $user_id, $attributes['type']), true);
+		//$user->setAttr('points_cached_until', $attributes['begin_time']);
+		$query = "UPDATE users SET points_cached_until=ADDDATE(FROM_UNIXTIME(?), INTERVAL -2 DAY) WHERE id=?";
+		Database::prepareAndExecute($query, array($attributes['begin_time'], $user->getAttr('id')));
+		//$user->recalculatePoints();
+		return $log_entry_id;
+	}
 }
 
 abstract class LogEntry extends databaseObject {

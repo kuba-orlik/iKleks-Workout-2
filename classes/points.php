@@ -53,7 +53,7 @@ class Points{
 		$i = 0;
 		$current_point;
 		$previous_point = null;
-		while(self::cmpDates($working_date, $today)>0){
+		while(self::cmpDates($working_date, $today)>=0){
 			$current_point = new Point($user_id, $working_date);
 			$exercise_count = $current_point->exercisesCount();
 			$before_negative_combo = self::cmpDates($working_date, $negative_combo_from)>0;
@@ -122,10 +122,10 @@ class Point{
 	private function load(){
 		$query = "SELECT points, combo FROM points  WHERE user_id=? AND `date`=?";
 		$rows = Database::prepareAndExecute($query, array($this->user_id, $this->date_str));
-		if(count($rows)==0){
-			$query = "INSERT INTO points (user_id, `date`) VALUES (?, ?)";
-			Database::prepareAndExecute($query, array($this->user_id, $this->date_str));
-		}
+		//if(count($rows)==0){
+			$query = "INSERT INTO points (user_id, `date`) VALUES (?, ?) ON DUPLICATE KEY UPDATE user_id=?, `date`=?";
+			Database::prepareAndExecute($query, array($this->user_id, $this->date_str, $this->user_id, $this->date_str));
+		//}
 		$this->set($rows[0]['points'], $rows[0]['combo']);
 	}
 
@@ -171,7 +171,7 @@ class Point{
 	}
 
 	public  function exercisesCount(){
-		$query = "SELECT COUNT( id ) FROM (SELECT id, begin_time FROM log_entry WHERE user_id =? ) d GROUP BY begin_time HAVING begin_time=?";
+		$query = "SELECT COUNT( id ) FROM (SELECT id, begin_time FROM log_entry WHERE user_id =? ) d GROUP BY begin_time HAVING DATE(begin_time)=?";
 		$rows = Database::prepareAndExecute($query, array($this->user_id, $this->date_str ));
 		return count($rows);	
 	}

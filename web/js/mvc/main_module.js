@@ -7,7 +7,9 @@ var app = angular.module('app', ['ngResource', 'ngAnimate', 'ngSanitize', 'bette
 			.when('/exercise/new', {templateUrl: 'web/html/views/create_exercise.html', controller: 'new_exercise'})
 			.when('/exercise/:id', {templateUrl: 'web/html/views/exercise.html', controller: 'exercise'})
 			.when('/exercise/:id/go', {templateUrl: 'web/html/views/exercise_go.html', controller: 'exercise_go'})
+			.when('/exercise/:id/log', {templateUrl: 'web/html/views/exercise_log.html', controller: 'exercise_log'})
 			.when('/history', {templateUrl: 'web/html/views/history.html', controller: 'history'})
+			.when('/logs/:logId', {templateUrl: 'web/html/views/log.html', controller: 'log'})
 			.otherwise({redirectTo: '/home'});
 	}]
 );	
