@@ -43,7 +43,7 @@ class SetTemplate extends databaseObject {
 		$this -> gettable = array("id", "name", "exercise_id", "orderL", "unit");
 		$this -> settable = array("name", "exercise_id", "orderL", "unit");
 		$this -> public_gettable = array("id", "name", "exercise_id", "orderL", "unit");
-		$this -> public_settable = array("name", "orderL", "unit");
+		$this -> public_settable = array("name", "orderL", "unit", 'exercise_id');
 		$this -> load($id);
 	}
 

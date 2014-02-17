@@ -120,7 +120,7 @@ app.controller('new_exercise', ['$scope', '$http', function($scope, $http){
 
 	$scope.exercise_data = {
 		name: "",
-		muscle_part_name: "",
+		muscle_part_id: "",
 		muscle_part_name_custom: "",
 		use_custom_muscle:false,
 		template: {
@@ -145,6 +145,111 @@ app.controller('new_exercise', ['$scope', '$http', function($scope, $http){
 				}
 			}
 		}
+	}
+
+	$scope.create = function(){
+		var data = $scope.exercise_data;
+		var params = {
+			name: data.name
+		};
+		if(data.use_custom_muscle){
+			$http.post('/api/muscleParts', {name:data.muscle_part_name_custom}).success(function(data){
+				var muscle_id = data.id;
+				$scope.postExercise(muscle_id);
+			});
+		}else{
+			$scope.postExercise(data.muscle_part_id);
+		}
+	}
+
+	$scope.postExercise = function(muscle_part_id){
+		var data = $scope.exercise_data;
+		var params = {
+			name: data.name,
+			muscle_part_id: muscle_part_id
+		};
+		$http.post('/api/exercises', params).success(function(data){
+			var exe_id = data.id;
+			$scope.createSets(exe_id);
+		})
+	}
+
+	$scope.createSets = function(exercise_id){
+		var data = $scope.exercise_data.template;
+		var set_array = [];
+		switch(data.type){
+			case 'traditional':
+				for(var i=1; i<=data.params.traditional.set_amount; i++){
+					var set = {
+						name: "set #"+i,
+						exercise_id: exercise_id,
+						orderL: i,
+						unit: 'reps'
+					}
+					set_array.push(set);
+				}
+				break;
+			case 'outside':
+				var subdata = data.params.outside;	
+				if(subdata.avg_speed){
+					set_array.push({
+						name: 'avg speed',
+						exercise_id: exercise_id,
+						orderL: 2,
+						unit: 'km/h'
+					})
+				};
+				if(subdata.calories){
+					set_array.push({
+						name: 'calories burned',
+						exercise_id: exercise_id,
+						orderL: 3,
+						unit: 'kcal'
+					})
+				};
+				if(subdata.distance){
+					set_array.push({
+						name: 'distance',
+						exercise_id: exercise_id,
+						orderL: 1,
+						unit: 'km'
+					})
+				}
+				if(subdata.max_speed){
+					set_array.push({
+						name: 'max speed',
+						exercise_id: exercise_id,
+						orderL: 4,
+						unit: 'km/h'
+					})
+				}
+				break;
+			case "fancy":
+				var custom_templates = data.params.fancy.rows;
+				for(var i in custom_templates){
+					set_array.push({
+						name: custom_templates[i].name,
+						orderL: i+1,
+						unit: custom_templates[i].unit,
+						exercise_id: exercise_id
+					});
+				};
+				break;
+		}
+		console.log(set_array);
+		var amount_saved = 0;
+		for(var i in set_array){
+			$http.post("/api/setTemplates", set_array[i]).success(function(){
+				amount_saved++;
+				if(amount_saved==set_array.length){
+					$scope.finish_saving(exercise_id);
+				}
+			})
+		}
+	}
+
+	$scope.finish_saving = function(exercise_id){
+		document.location.hash = '/exercise/' + exercise_id;
 	}
 
 	$scope.status = {};
@@ -237,7 +342,7 @@ app.controller('new_exercise', ['$scope', '$http', function($scope, $http){
 
 	$scope.getStatus = function(){
 		var name_ok = $scope.validateName($scope.exercise_data.name).status!='error' && $scope.exercise_data.name.length>4;
-		var type_ok = $scope.exercise_data.muscle_part_name!="" || ($scope.exercise_data.use_custom_muscle && $scope.exercise_data.muscle_part_name_custom!="");
+		var type_ok = $scope.exercise_data.muscle_part_id!="" || ($scope.exercise_data.use_custom_muscle && $scope.exercise_data.muscle_part_name_custom!="");
 		var template_ok = $scope.validateTemplate().status!='error';
 		return {
 			name_ok: name_ok,
@@ -276,9 +381,6 @@ app.controller('new_exercise', ['$scope', '$http', function($scope, $http){
 		$scope.exercise_list_loaded = true;
 	});
 
-	$scope.create = function(){
-		alert("todo!");
-	}
 
 }]);
 

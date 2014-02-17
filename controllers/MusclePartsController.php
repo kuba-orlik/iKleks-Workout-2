@@ -27,7 +27,10 @@ class MusclePartsController{
 	}
 	
 	public function postAction($url_elements, $parameters){
-		$user = Users::getUser();
+		$user = Users::getCurrentUser();
+		$part = MuscleParts::put($parameters);
+		$part->set(array('user_id'=>$user->getAttr('id')));
+		$data = $part->getAttributes();
 		return $data;		
 	}
 }

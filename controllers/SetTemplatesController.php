@@ -20,7 +20,10 @@ class setTemplatesController{
 	}
 	
 	public function postAction($url_elements, $parameters){
-		$user = Users::getUser();
+		var_dump($parameters);
+		$user = Users::getCurrentUser();
+		$part = SetTemplates::put($parameters);
+		$data = $part->getAttributes();
 		return $data;		
 	}
 }

@@ -60,9 +60,9 @@ class databaseObjectColection{
 	
 	public static function create(){
 		$query = "INSERT INTO " . static::$table_name . " VALUES ()";
-		$db = Database::connectPDO();
-		$rows = $db->query($query);
-		$id = $db->lastInsertId();
+		//$db = Database::connectPDO();
+		$id = Database::prepareAndExecute($query, array(), true);
+		//$id = $db->lastInsertId();
 		return new static::$class_name($id);
 	}
 

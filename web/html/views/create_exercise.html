@@ -16,7 +16,7 @@
 			<h2 class='with_emphasis' style='align-self:flex-start'> Step 2. <strong>Muscles involved</strong></h2>
 			<h3 class='with_emphasis'> Where will it <strong>burn</strong> the next day?</h3>
 			<div style='width:100%;'>
-				<div ng-repeat='muscle in muscle_parts' class='list_row' style='cursor:pointer' ng-class='{even: $even, active: muscle.name==exercise_data.muscle_part_name&&!exercise_data.use_custom_muscle}' ng-click='exercise_data.muscle_part_name=muscle.name; exercise_data.use_custom_muscle=false'>
+				<div ng-repeat='muscle in muscle_parts' class='list_row' style='cursor:pointer' ng-class='{even: $even, active: muscle.id==exercise_data.muscle_part_id&&!exercise_data.use_custom_muscle}' ng-click='exercise_data.muscle_part_id=muscle.id; exercise_data.use_custom_muscle=false'>
 					{{muscle.name}}
 				</div>
 				<div class='list_row' style='cursor:pointer' ng-class='{active: exercise_data.use_custom_muscle}' ng-click='exercise_data.use_custom_muscle=true'>

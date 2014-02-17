@@ -53,13 +53,21 @@ class ExercisesController{
 	}
 	
 	public function postAction($url_elements, $parameters){
-		var_dump($parameters);
-		if(isset($url_elements[3])){
-			switch($url_elements[3]){
-				case 'logs':
-					
+		$required = array(
+			"muscle_part_id",
+			"name"
+		);
+		foreach($required AS $attr){
+			if(!isset($parameters[$attr])){
+				die("$attr not specified");
 			}
 		}
+		$user = Users::getCurrentUser();
+		$user_id = $user->getAttr('id');
+		$parameters['user_id'] = $user_id;
+		$exercise = Exercises::put($parameters);
+		$exercise->set(array('user_id'=>$user_id));
+		$data = $exercise->public_getAttributes();
 		return $data;		
 	}
 }
