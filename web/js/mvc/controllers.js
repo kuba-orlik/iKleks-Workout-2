@@ -428,11 +428,16 @@ app.controller('exercise_go', ["$scope", "$http", "$routeParams", "music_player"
 
 	$scope.mode = 'set'; //set|timer
 
+	$scope.time_waited = 0;
+
+	$scope.time_waited_checkpoint;
+
 	$scope.startTimer = function(amount){
 		$scope.mode = 'timer';
 		$scope.timer = amount;
 		var d = new Date();
 		var start = d.getTime();
+		$scope.time_waited_checkpoint = start;
 		$scope.timerTick(start, amount);
 	}
 
@@ -440,6 +445,8 @@ app.controller('exercise_go', ["$scope", "$http", "$routeParams", "music_player"
 		var d = new Date();
 		var cur = d.getTime();
 		var dif = Math.floor((cur-start)/1000);
+		$scope.time_waited+=cur-$scope.time_waited_checkpoint;
+		$scope.time_waited_checkpoint=cur;
 		$scope.timer = amount-dif;	
 		if(dif<amount && $scope.mode=='timer'){
 			setTimeout(function(){
@@ -546,7 +553,7 @@ app.controller('exercise_go', ["$scope", "$http", "$routeParams", "music_player"
 			result: $scope.results,
 			type: 'regular',
 			begin_time: Math.round($scope.start_time/1000),
-			duration_s: Math.floor(($scope.end_time - $scope.start_time)/1000)
+			duration_s: Math.floor(($scope.end_time - $scope.start_time - $scope.time_waited)/1000)
 		}
 		$scope.saving = true;
 		$http.post('/api/log/', params).success(function(data){

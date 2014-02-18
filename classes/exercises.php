@@ -114,6 +114,8 @@ class Exercise extends databaseObject {
 		if(count($results)<3){
 			if(count($results)<2){
 				return 0;
+			}else if(count($results==2)){
+				return $results[1]/$results[0]-1;
 			}else{
 				return $results[2]/(($results[0]+$results[1])/2) -1;
 			}

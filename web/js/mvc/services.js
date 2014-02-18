@@ -28,7 +28,7 @@ app.service('notifSound', function(){
 	var sound = new buzz.sound('/web/sounds/notif', {
 		formats:['mp3'],
 		preload:true,
-		loop: true
+		loop: false
 	})
 
 	this.play = function(){
