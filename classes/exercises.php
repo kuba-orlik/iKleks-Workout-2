@@ -160,7 +160,7 @@ class Exercise extends databaseObject {
 					if($this->results_json!=null){
 						return json_decode($this->results_json);
 					}else{
-						$query = "SELECT sum(result) AS `sum` FROM log_entry_regular LEFT JOIN sets ON log_entry_id=log_entry_regular.id left join log_entry ON log_entry_regular.id=log_entry.rel_id WHERE exercise_id=? GROUP BY log_entry_id ORDER BY begin_time ASC";
+						$query = "SELECT sum(result) AS `sum` FROM log_entry_regular LEFT JOIN sets ON log_entry_id=log_entry_regular.id left join log_entry ON log_entry_regular.id=log_entry.rel_id WHERE exercise_id=? GROUP BY log_entry_id ORDER BY UNIX_TIMESTAMP(begin_time) ASC";
 						$rows = Database::prepareAndExecute($query, array($self_id));
 						$ret = array();
 						foreach($rows AS $row){

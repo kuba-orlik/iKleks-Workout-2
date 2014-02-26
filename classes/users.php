@@ -144,6 +144,7 @@ class User extends databaseObject {
 	protected $email;
 	protected $login_token;
 	protected $points_cached_until;
+	protected $reminder_hour;
 
 	protected $rel_table_name;
 
@@ -151,10 +152,10 @@ class User extends databaseObject {
 
 	public function __construct($id) {
 		$this -> table_name = "users";
-		$this -> gettable = array("id", "google_id", "username", "created", "negative_combo_from", "name", "surname", "timer", "email", "login_token", 'points_cached_until');
-		$this -> settable = array("google_id", "username", "created", "negative_combo_from", "name", "surname", "timer", "email", "login_token", 'points_cached_until');
-		$this -> public_gettable = array("id", "google_id", "username", "created", "negative_combo_from", "name", "surname", "timer", "email", 'points_cached_until');
-		$this -> public_settable = array("name", "surname", "timer", "email", 'points_cached_until');
+		$this -> gettable = array("id", "google_id", "username", "created", "negative_combo_from", "name", "surname", "timer", "email", "login_token", 'points_cached_until', "reminder_hour");
+		$this -> settable = array("google_id", "username", "created", "negative_combo_from", "name", "surname", "timer", "email", "login_token", 'points_cached_until', "reminder_hour");
+		$this -> public_gettable = array("id", "google_id", "username", "created", "negative_combo_from", "name", "surname", "timer", "email", 'points_cached_until', "reminder_hour");
+		$this -> public_settable = array("name", "surname", "timer", "email", 'points_cached_until', "reminder_hour");
 		$this -> load($id);
 	}
 
@@ -271,5 +272,12 @@ class User extends databaseObject {
 			$ret[]=$new_row;
 		}
 		return $ret;
+	}
+
+	public function getCurrentStreak(){
+		$this->recalculatePoints();
+		$query = "SELECT combo FROM points WHERE user_id=? ORDER BY date DESC limit 0, 1";
+		$rows = Database::prepareAndExecute($query, array($this->id));
+		return $rows[0]["combo"];
 	}
 }

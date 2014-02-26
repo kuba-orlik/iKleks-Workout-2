@@ -1,4 +1,4 @@
-<?
+<?php
 define('DIR_BASE',      dirname( dirname( __FILE__ ) ) . '/workout2/');
 define('DIR_CLASSES',    DIR_BASE . 'classes/');
 define('DATABASE_NAME', 'kuba_workout2');

@@ -28,7 +28,7 @@ class Database{
 		}
 	}
 
-	private function replace_question_marks($query, $parameters){
+	private static function replace_question_marks($query, $parameters){
 		foreach($parameters AS $parameter){
 			$query = preg_replace("/\?/", $parameter, $query, 1);
 		}
@@ -41,7 +41,7 @@ class Database{
 		file_put_contents(DIR_CLASSES . 'log.txt', $entry, FILE_APPEND);
 	}
 
-	private function getTimestamp(){
+	private static  function getTimestamp(){
 		/*$utimestamp = microtime(true);
   		$timestamp = floor($utimestamp);
   		$milliseconds = round(($utimestamp - $timestamp) * 1000000);*/

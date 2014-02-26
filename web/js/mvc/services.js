@@ -22,6 +22,10 @@ app.service('metronome', function(){
 	this.pause = function(){
 		sound.pause();
 	}
+
+	this.fadeOut = function(time){
+		
+	}
 })
 
 app.service('notifSound', function(){
@@ -66,7 +70,8 @@ app.service('music_player', function(){
 	this.play = function(){
 		if(!playing){
 			playing = true;
-			track.fadeIn(100);
+			//track.fadeIn(100);
+			track.setVolume(100);
 			track.play();
 			console.log('play');
 		}

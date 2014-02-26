@@ -53,7 +53,7 @@ class Points{
 		$i = 0;
 		$current_point;
 		$previous_point = null;
-		while(self::cmpDates($working_date, $today)>=0){
+		while(self::cmpDates($working_date, $today)>0){
 			$current_point = new Point($user_id, $working_date);
 			$exercise_count = $current_point->exercisesCount();
 			$before_negative_combo = self::cmpDates($working_date, $negative_combo_from)>0;
@@ -100,6 +100,14 @@ class Points{
 			$current_point = $current_point->getNextDay();
 			$working_date = $current_point->getDateStr();
 			$i++;
+		}
+		$todayPoints = new Point($user_id, $today);
+		$previous_point = $todayPoints->getPrevDay();
+		$today_exercice_count = $todayPoints->exercisesCount();
+		if($today_exercice_count==0){
+			$todayPoints->set($previous_point->get()['points'], 0);
+		}else{
+			$todayPoints->set($previous_point->get()['points']+$today_exercice_count, $previous_point->get()['combo']+1);
 		}
 		$user->set(array('points_cached_until'=>$previous_point->getDateStr()));
 	}

@@ -461,7 +461,8 @@ app.controller('exercise_go', ["$scope", "$http", "$routeParams", "music_player"
 	}
 
 	$scope.next = function(){
-		$scope.music_fadeOut(100);			
+		$scope.music_fadeOut(100);		
+		metronome.pause();	
 		if($scope.current_set_no==$scope.exercise.setTemplates.length){
 			$scope.finish();
 		}else{
@@ -503,6 +504,7 @@ app.controller('exercise_go', ["$scope", "$http", "$routeParams", "music_player"
 	function handleChange(){
 		if(document.location.hash.indexOf('/go')==-1){
 			$scope.music_fadeOut(500);	
+			metronome.pause();
 			console.log('fadingOut');		
 		}
 	};
@@ -512,6 +514,9 @@ app.controller('exercise_go', ["$scope", "$http", "$routeParams", "music_player"
 
 	$scope.music_fadeOut = function(dur){
 		music_player.fadeOut(dur);
+		setTimeout(function(){
+			$scope.music_pause();
+		}, dur);
 	}
 
 	$scope.nextSet = function(){
@@ -533,10 +538,12 @@ app.controller('exercise_go', ["$scope", "$http", "$routeParams", "music_player"
 
 	$scope.music_pause = function(){
 		music_player.pause();
+		$scope.music_paused = true;
 	}
 
 	$scope.music_play = function(){
 		music_player.play();
+		$scope.music_paused = false;
 	}
 
 	$scope.music_reset = function(){
