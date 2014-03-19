@@ -67,6 +67,7 @@ class LogEntries extends databaseObjectColection {
 		$user = Users::getCurrentUser();
 		$user_id = $user->getAttr('id');
 		//$user_id=26; //$$$$dirtty dirty hack
+		$rebuild_json = false;
 		if($attributes['type']=='regular'){
 			$query = "INSERT INTO log_entry_regular (exercise_id) VALUES (?)";
 			$rel_id = Database::prepareAndExecute($query, array($attributes['exercise_id']), true);
@@ -80,8 +81,7 @@ class LogEntries extends databaseObjectColection {
 				$sum+=$result;
 				$i++;
 			}
-			$exercise = new Exercise($attributes['exercise_id']);
-			$exercise->rebuildResultsJSON();
+			$rebuild_json = true;
 		}
 		if($attributes['type']=='custom'){
 			$query = "INSERT INTO log_entry_custom (name, result, muscle_part_id) VALUES (?, ?, ?)";
@@ -93,6 +93,10 @@ class LogEntries extends databaseObjectColection {
 		$query = "UPDATE users SET points_cached_until=ADDDATE(FROM_UNIXTIME(?), INTERVAL -2 DAY) WHERE id=?";
 		Database::prepareAndExecute($query, array($attributes['begin_time'], $user->getAttr('id')));
 		//$user->recalculatePoints();
+		if($rebuild_json){
+			$exercise = new Exercise($attributes['exercise_id']);
+			$exercise->rebuildResultsJSON();			
+		}
 		return $log_entry_id;
 	}
 }

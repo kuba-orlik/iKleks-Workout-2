@@ -19,8 +19,12 @@ echo $tomorrow;*/
 include 'config.php';
 
 include "classes/points.php";
+//include "classes/exercises.php";
 
 //echo Points::cmpDates('2013-12-25', '2013-12-24');
 
 
-Points::recalculateForUser(26); 
+//Points::recalculateForUser(26); 
+
+$exercise = new Exercise(180); 
+$exercise->rebuildResultsJSON();
